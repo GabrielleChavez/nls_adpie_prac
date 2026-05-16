@@ -3,8 +3,8 @@ import numpy as np
 from tslearn.metrics import dtw_path, dtw
 from boxplots_significance import mannwhitneyu_test
 from sklearn.cluster import DBSCAN
-from nls_adpie_prac.process_data import getDF, get_single_class
-from nls_adpie_prac.ADPIE import ADPIE
+from process_data import getDF, get_single_class
+from ADPIE import ADPIE
 
 def count_touches(person_points, returnAll=True):
     task = person_points["task"]
@@ -242,16 +242,15 @@ def run_all_features(task= "mole", file_name="pursuit_path.csv", feature_name=No
 
 
 if __name__ == "__main__":
-    import process_data as pm
     
     task = "mole"
     nd_groups = ["AD", "PD", "CTL"]
 
-    mci_ad = pm.get_single_class(task, "MCI_AD")
-    mci = pm.get_single_class(task, "MCI")
-    ad = pm.get_single_class(task, "AD")
-    pdn = pm.get_single_class(task, "PD")
-    ctl = pm.get_single_class(task, "CTL")
+    mci_ad = get_single_class(task, "MCI_AD")
+    mci = get_single_class(task, "MCI")
+    ad = get_single_class(task, "AD")
+    pdn = get_single_class(task, "PD")
+    ctl = get_single_class(task, "CTL")
 
     nd_data = [mci_ad, mci, ad, pdn, ctl]
     nd_data_name = ["MCI_AD", "MCI", "AD", "PD", "CTL"]
