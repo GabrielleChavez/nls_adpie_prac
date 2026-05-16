@@ -15,7 +15,7 @@ def main():
     #    'moca_orientation', 'h&y', 'UPDRS3', 'certainty',
     #    'moca_30_days_follow_up']
 
-    print(df["labels"].unique())
+    print(df["label"].unique())
 
 if __name__ == "__main__":
     main()
