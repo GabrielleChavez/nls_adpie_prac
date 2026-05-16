@@ -75,8 +75,6 @@ def calculate_moca_score_per_group(df):
 
 
 
-
-
 if __name__ == "__main__":
     main()
 

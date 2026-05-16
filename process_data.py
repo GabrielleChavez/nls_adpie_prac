@@ -25,7 +25,7 @@ PATH = "..\handwriting"
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), PATH)))
 from normalize_align import normalize_handwriting_df, align_handwriting_with_eye_df, Columns, DeviceSpec
 
-from ADPIE import ADPIE
+from nls_adpie_prac.ADPIE import ADPIE
 
 def getDF(hw, eye=None):
     """
@@ -167,7 +167,7 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
     df = pd.read_csv(file_path)
     # Goal is to only extract PD and control
     CLASS_1 = class_
-    valid_labels = rf"{CLASS_1}"
+    valid_labels = rf"\b{CLASS_1}\b"
 
     if _labels == "mole":
         _labels = "Pursuit_path_recollection"
@@ -186,7 +186,8 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
     class_1_data = []
     count = 0
     for folder in sorted(os.listdir(hw_directory)): # Iterate through folders
-        if folder in ID_TYPE.keys() and (ID_TYPE[folder] in valid_labels):
+        if folder in ID_TYPE.keys() and (ID_TYPE[folder] == valid_labels):
+
             folder_path = os.path.join(hw_directory, folder)
             taskType = ID_TYPE[folder] 
             if ("NLS_296" in folder_path or "NLS_295" in folder_path or "NLS_265" in folder_path):
