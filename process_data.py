@@ -164,7 +164,7 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
     eye_directory = "/projects/NLS_ADPIE/data/ADPIE/Processed/eyetracking/csv/" 
     file_path = "/projects/NLS_ADPIE/data/ADPIE/metadata/0.metadata.csv"
 
-    df = pd.read_csv(file_path)
+    df_og = pd.read_csv(file_path)
     # Goal is to only extract PD and control
     CLASS_1 = class_
     valid_labels = rf"{CLASS_1}"
@@ -173,14 +173,14 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
         _labels = "Pursuit_path_recollection"
 
     if CLASS_1 == 'all_ad':
-        df = df[(df['label'] == 'AD') | (df['label'] == 'MCI_AD') | (df['label'] == 'MCI')]
+        df_og = df_og[(df_og['label'] == 'AD') | (df_og['label'] == 'MCI_AD') | (df_og['label'] == 'MCI')]
         valid_labels = rf"AD|MCI_AD|MCI|"
 
     else:
-        df = df[(df['label'] == CLASS_1)]
+        df_og = df_og[(df_og['label'] == CLASS_1)]
 
     # Create Dictionary
-    ID_TYPE = pd.Series(df['label'].values, index=df['subject']).to_dict()
+    ID_TYPE = pd.Series(df_og['label'].values, index=df_og['subject']).to_dict()
 
     # Second Iterate through folders to get svc files
     class_1_data = []
@@ -240,7 +240,7 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                     img = xy2img(df, task, set_width)
 
                     moca_cols =  ['moca', 'moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall','moca_orientation'] 
-                    moca_dict = {moca: df[moca].astype(float) for moca in moca_cols}
+                    moca_dict = {moca: df_og[moca].astype(float) for moca in moca_cols}
 
                     # build dict
                     sample = {
