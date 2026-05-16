@@ -25,7 +25,7 @@ PATH = "..\handwriting"
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), PATH)))
 from normalize_align import normalize_handwriting_df, align_handwriting_with_eye_df, Columns, DeviceSpec
 
-from nls_adpie_prac.ADPIE import ADPIE
+from ADPIE import ADPIE
 
 def getDF(hw, eye=None):
     """
