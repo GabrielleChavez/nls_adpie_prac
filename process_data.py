@@ -167,7 +167,7 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
     df = pd.read_csv(file_path)
     # Goal is to only extract PD and control
     CLASS_1 = class_
-    valid_labels = rf"\b{CLASS_1}\b"
+    valid_labels = rf"{CLASS_1}"
 
     if _labels == "mole":
         _labels = "Pursuit_path_recollection"
