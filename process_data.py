@@ -238,7 +238,7 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                     #generate image
                     img = xy2img(df, task, set_width)
 
-                    moca_cols =  ['moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall',
+                    moca_cols =  ['moca', 'moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall',
                  'moca_orientation'] 
                     moca_dict = {moca: df[moca].astype(float) for moca in moca_cols}
 
