@@ -239,23 +239,22 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                     #generate image
                     img = xy2img(df, task, set_width)
 
-                    try:
-                        moca_cols = ['moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall', 'moca_orientation']
-                        session = int(svc_file.split("_")[1][:-2]) - 1
+    
+                    moca_cols = ['moca', 'moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall', 'moca_orientation']
+                    session = int(svc_file.split("_")[1][:-2]) - 1
 
-                        # Filter to this specific subject
-                        subject_row = df_og[df_og['subject'] == folder]  # 'folder' is the subject ID in your loop
-
-                        moca_dict = {moca: float(subject_row[moca].values[0]) for moca in moca_cols}
-                        
-                        # Handle the semicolon-separated moca score
-                        moca_raw = str(subject_row["moca"].values[0])
-                        moca_sessions = moca_raw.split(";")
-                        moca_dict["moca"] = float(moca_sessions[session]) if session < len(moca_sessions) else None
-                        
-                    except Exception as e:
-                        print(f"Error occurred while processing {svc_path_hw}: {e}")
-                        moca_dict = None
+                    # Filter to this specific subject
+                    subject_row = df_og[df_og['subject'] == folder]  # 'folder' is the subject ID in your loop
+                    moca_dict = {moca: float(subject_row[moca].values[0]) for moca in moca_cols}
+                    moca_dict = {}
+                    for moca in moca_cols:
+                        try:
+                            moca_raw = str(subject_row[moca].values[0])
+                            moca_sessions = moca_raw.split(";")
+                            moca_dict[moca] = float(moca_sessions[session]) if session < len(moca_sessions) else float(moca_sessions[-1])
+                        except Exception as e:
+                            print(f"Error processing MoCA column {moca} for subject {folder}: {e}")
+                            moca_dict[moca] = None
 
                     # build dict
                     sample = {
