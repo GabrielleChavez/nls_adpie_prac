@@ -246,11 +246,11 @@ if __name__ == "__main__":
     task = "mole"
     nd_groups = ["AD", "PD", "CTL"]
 
-    mci_ad = get_single_class(task, "MCI_AD")
-    mci = get_single_class(task, "MCI")
-    ad = get_single_class(task, "AD")
-    pdn = get_single_class(task, "PD")
-    ctl = get_single_class(task, "CTL")
+    mci_ad = get_single_class(task, "MCI_AD", hw_only=True)
+    mci = get_single_class(task, "MCI", hw_only=True)
+    ad = get_single_class(task, "AD", hw_only=True)
+    pdn = get_single_class(task, "PD", hw_only=True)
+    ctl = get_single_class(task, "CTL", hw_only=True)
 
     nd_data = [mci_ad, mci, ad, pdn, ctl]
     nd_data_name = ["MCI_AD", "MCI", "AD", "PD", "CTL"]

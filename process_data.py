@@ -211,10 +211,10 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                             print(subject_fm, "task: ", task)
                             continue
 
-                    if count == 34:
-                        print(svc_path_hw)
-                        print(svc_path_eye)
-                    count += 1
+                    # if count == 34:
+                    #     print(svc_path_hw)
+                    #     print(svc_path_eye)
+                    # count += 1
 
                     P_raw = df["P"].astype(float).values
                     T_raw = df["T"].astype(float).values
@@ -239,8 +239,12 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                     #generate image
                     img = xy2img(df, task, set_width)
 
-                    moca_cols =  ['moca', 'moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall','moca_orientation'] 
-                    moca_dict = {moca: df_og[moca].astype(float) for moca in moca_cols}
+                    try:
+                        moca_cols =  ['moca', 'moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall','moca_orientation'] 
+                        moca_dict = {moca: df_og[moca].astype(float) for moca in moca_cols}
+                    except Exception as e:
+                        print(f"Error occurred while processing {svc_path_hw}: {e}")
+                        moca_dict = None
 
                     # build dict
                     sample = {
