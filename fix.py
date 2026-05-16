@@ -44,6 +44,7 @@ def calculate_moca_score_per_group(df):
 
     for label in labels:
         df_filtered = df[df["label"] == label]
+        print(f"\n{label} group: {len(df_filtered)} subjects")
 
         # Store row for summary table
         row_data = {"label": label}
