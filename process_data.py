@@ -245,7 +245,6 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
 
                     # Filter to this specific subject
                     subject_row = df_og[df_og['subject'] == folder]  # 'folder' is the subject ID in your loop
-                    moca_dict = {moca: float(subject_row[moca].values[0]) for moca in moca_cols}
                     moca_dict = {}
                     for moca in moca_cols:
                         try:
