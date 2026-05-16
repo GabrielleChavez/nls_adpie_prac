@@ -240,11 +240,19 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                     img = xy2img(df, task, set_width)
 
                     try:
-                        moca_cols =  ['moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall','moca_orientation'] 
+                        moca_cols = ['moca_visuospatial_executive', 'moca_attention', 'moca_delayed_recall', 'moca_orientation']
                         session = int(svc_file.split("_")[1][:-2]) - 1
-                        moca_dict = {moca: float(df_og[moca]) for moca in moca_cols}
-                        moca_dict["moca"] = float(df_og["moca"].split(";")[session])
-                    
+
+                        # Filter to this specific subject
+                        subject_row = df_og[df_og['subject'] == folder]  # 'folder' is the subject ID in your loop
+
+                        moca_dict = {moca: float(subject_row[moca].values[0]) for moca in moca_cols}
+                        
+                        # Handle the semicolon-separated moca score
+                        moca_raw = str(subject_row["moca"].values[0])
+                        moca_sessions = moca_raw.split(";")
+                        moca_dict["moca"] = float(moca_sessions[session]) if session < len(moca_sessions) else None
+                        
                     except Exception as e:
                         print(f"Error occurred while processing {svc_path_hw}: {e}")
                         moca_dict = None
