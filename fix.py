@@ -16,7 +16,7 @@ def main():
     #    'moca_30_days_follow_up']
 
     # print(df["label"].unique()) 
-    labels = ['AD' 'CTL' 'MCI_AD' 'PDM' 'MCI' 'UKN' 'ATX' 'PD']
+    labels = ['AD', 'CTL', 'MCI_AD', 'PDM', 'MCI', 'UKN', 'ATX', 'PD']
 
     count = lambda label: len(df[df["label"] == label])
     for label in labels:
