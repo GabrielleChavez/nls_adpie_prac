@@ -43,18 +43,18 @@ def calculate_moca_score_per_group(df):
     table_rows = []
 
     for label in labels:
-        df_filtered = df[df["label"] == label]
+        df_filtered = df[df["label"] == label].copy()
         print(f"\n{label} group: {len(df_filtered)} subjects")
 
         # Convert MoCA columns to numeric, coercing errors to NaN
         for col in moca_cols:
-            df[col] = pd.to_numeric(df[col], errors='coerce')
-
+            df_filtered[col] = pd.to_numeric(df_filtered[col], errors='coerce')
+    
         # Store row for summary table
         row_data = {"label": label}
 
         for moca in moca_cols:
-            mean_score = df_filtered[moca].mean()
+            mean_score = df_filtered[moca].mean() # error occurs here
             row_data[moca] = round(mean_score, 2)
 
         # Optional overall MoCA average
