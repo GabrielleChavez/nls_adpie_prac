@@ -259,7 +259,8 @@ if __name__ == "__main__":
 
     for (group, name) in zip(nd_data, nd_data_name):
         print(f"Processing group: {name}")
-        completed_data[name] = get_completed_paths(group, verbose=True)
+        print(f"Total participants in {name}: {len(group)}")
+        completed_data[name] = get_completed_paths(group, verbose=False)
 
     print("\nSummary of Completed Paths:")
     for name, paths in completed_data.items():
