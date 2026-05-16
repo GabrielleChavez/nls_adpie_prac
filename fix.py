@@ -27,7 +27,7 @@ def main():
 
 def avg_moca_score(row, moca_cols = None):
     if moca_cols is None:
-        moca_cols = ['moca_visuospatial_executive', 'moca_naming', 'moca_attention',
+        moca_cols = ['moca', 'moca_visuospatial_executive', 'moca_naming', 'moca_attention',
                  'moca_language', 'moca_abstraction', 'moca_delayed_recall',
                  'moca_orientation']
     return row[moca_cols].mean()
@@ -35,7 +35,7 @@ def avg_moca_score(row, moca_cols = None):
 def calculate_moca_score_per_group(df):
     # df should be the filtered dataframe with only the relevant columns
     labels = ['AD', 'CTL', 'MCI_AD', 'PDM', 'MCI','PD']
-    moca_cols =  ['moca_visuospatial_executive', 'moca_naming', 'moca_attention',
+    moca_cols =  ['moca', 'moca_visuospatial_executive', 'moca_naming', 'moca_attention',
                  'moca_language', 'moca_abstraction', 'moca_delayed_recall',
                  'moca_orientation'] 
     
@@ -72,6 +72,7 @@ def calculate_moca_score_per_group(df):
     print(summary_df.to_string(index=False))
 
     return results, summary_df
+
 
 
 
