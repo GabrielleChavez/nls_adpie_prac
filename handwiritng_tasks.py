@@ -112,7 +112,7 @@ def percent_overlap(participant):
 
     return (intersection / union) 
 
-def completed_paths(data, verbose=False):
+def get_completed_paths(data, verbose=False):
     # data is a dictionary 
     completed_paths = {}
 
@@ -255,13 +255,13 @@ if __name__ == "__main__":
     nd_data = [mci_ad, mci, ad, pdn, ctl]
     nd_data_name = ["MCI_AD", "MCI", "AD", "PD", "CTL"]
 
-    completed_paths = {}
+    completed_data = {}
 
     for (group, name) in zip(nd_data, nd_data_name):
         print(f"Processing group: {name}")
-        completed_paths[name] = completed_paths(group, verbose=True)
+        completed_data[name] = get_completed_paths(group, verbose=True)
 
     print("\nSummary of Completed Paths:")
-    for name, paths in completed_paths.items():
+    for name, paths in completed_data.items():
         print(f"{name}: {len(paths)} completed paths")
         
