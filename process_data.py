@@ -198,12 +198,12 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                 if re.search(_labels, svc_file) and taskType in CLASS_1:
                    
                     svc_path_hw = os.path.join(folder_path, svc_file)
-
+                    subject_fm = "_".join(svc_file.split("_")[:3])
                     if hw_only:
                         df = getDF(svc_path_hw)
                     else:
                         try:
-                            subject_fm = "_".join(svc_file.split("_")[:3])
+                            
                             svc_path_eye = eye_directory +'/' + folder + "/" + subject_fm + "_" + b_or_m.upper() + "_" + task + ".csv"
                             df = getDF(svc_path_hw, svc_path_eye)
                         except Exception as e:
