@@ -1,6 +1,7 @@
 import sys, os, subprocess, re, io, cv2, math
 import numpy as np
 import pandas as pd
+from process_data import *
 
 def main():
     file_path = "/projects/NLS_ADPIE/data/ADPIE/metadata/0.metadata.csv"
@@ -73,6 +74,31 @@ def calculate_moca_score_per_group(df):
 
     return results, summary_df
 
+def fix_get_completed_paths(task="mole", verbose=True):
+    # mci_ad = get_single_class(task, "MCI_AD", hw_only=False, subject_id=True)
+    # mci = get_single_class(task, "MCI", hw_only=False, subject_id=True)
+    ad = get_single_class(task, "AD", hw_only=False, subject_id=True)
+    # pdn = get_single_class(task, "PD", hw_only=False, subject_id=True)
+    # ctl = get_single_class(task, "CTL", hw_only=False, subject_id=True)
+
+    # nd_data = [mci_ad, mci, ad, pdn, ctl]
+    nd_data = [ad]
+    #nd_data_name = ["MCI_AD", "MCI", "AD", "PD", "CTL"]
+    nd_data_name = ["AD"]
+    
+    completed_data = {}
+    
+    for (group, name) in zip(nd_data, nd_data_name):
+        if verbose:
+            print(f"Processing group: {name}")
+            print(f"Total participants in {name}: {len(group)}")
+
+        completed_data[name] = get_completed_paths(group)
+
+    if verbose:
+        print("\nSummary of Completed Paths:")
+        for name, paths in completed_data.items():
+            print(f"{name}: {len(paths)} completed paths")
 
 
 if __name__ == "__main__":

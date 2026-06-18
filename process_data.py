@@ -295,7 +295,7 @@ def get_completed_paths(data):
 
     return completed_paths
 
-def get_completed_paths(task = "mole", verbose=False):
+def get_completed_paths_(task = "mole", verbose=False):
     nd_groups = ["AD", "PD", "CTL"]
 
     mci_ad = get_single_class(task, "MCI_AD", hw_only=False, subject_id=True)
@@ -313,7 +313,7 @@ def get_completed_paths(task = "mole", verbose=False):
         if verbose:
             print(f"Processing group: {name}")
             print(f"Total participants in {name}: {len(group)}")
-        completed_data[name] = get_completed_paths(group, verbose=False)
+        completed_data[name] = get_completed_paths(group)
 
     if verbose:
         print("\nSummary of Completed Paths:")
