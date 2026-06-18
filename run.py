@@ -173,12 +173,6 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
                     task_name,
                 )
 
-                print(
-                    f"{subject_id} | "
-                    f"seq_err={seq['sequence_error']} "
-                    f"({seq['normalised_error']:.2f})"
-                )
-
             except Exception as e:
 
                 print(
@@ -201,11 +195,6 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
                 )
 
                 lag_summary = et.summarise_lag(lag_results)
-
-                print(
-                    f"{subject_id} | "
-                    f"mean_lag={lag_summary['mean_lag_s']:.3f}s"
-                )
 
             except Exception as e:
 
@@ -361,7 +350,6 @@ if __name__ == "__main__":
             f"p={result['p']:.4f}"
         )
 
-        if result["significant"]:
-            print(pairwise_mannwhitney(df, feature))
-            print()
+        print(pairwise_mannwhitney(df, feature))
+        print()
     
