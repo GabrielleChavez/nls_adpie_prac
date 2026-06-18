@@ -20,7 +20,7 @@ from scipy.ndimage import gaussian_filter, label, center_of_mass
 from scipy.spatial.distance import euclidean
 from scipy.stats import entropy
 from math import ceil, sqrt
-from nls_adpie_prac.handwriting_tasks import count_touches
+from handwriting_tasks import count_touches
 
 PATH = "..\handwriting"
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), PATH)))
