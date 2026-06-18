@@ -4,6 +4,7 @@ from tslearn.metrics import dtw_path, dtw
 from boxplots_significance import mannwhitneyu_test
 from sklearn.cluster import DBSCAN
 from ADPIE import ADPIE
+import 
 
 def count_touches(person_points, returnAll=True):
     task = person_points["task"]
@@ -236,11 +237,12 @@ def completed_tasks_features(data, verbose=False):
             num_touched, touched_any_list, vertex_acc, vertices_missed = count_touches(paths, participant)
             if verbose: 
                 print(f"Participant {participant['subject_id']} touched {num_touched} vertices with accuracy {vertex_acc:.2f}. Missed vertices: {vertices_missed}")
-            results[participant['subject_id']] = {
-                'num_touched': num_touched, 
-                'vertex_accuracy': vertex_acc,
-                'vertices_missed': vertices_missed
-            }
+            
+            # results[participant['subject_id']] = {
+            #     'num_touched': num_touched, 
+            #     'vertex_accuracy': vertex_acc,
+            #     'vertices_missed': vertices_missed
+            # }
             break
 
     return results
@@ -252,7 +254,8 @@ def completed_tasks_features(data, verbose=False):
 
 
 if __name__ == "__main__":
-    
+    pass
+
     # Example usage
     # participant = {
     #     'task': 'Pursuit_path_recollection1',
@@ -263,6 +266,7 @@ if __name__ == "__main__":
     # dist, norm_dist = dynamic_time_warp(participant)
     # print("DTW Distance:", dist)
     # print("Normalized DTW Distance:", norm_dist)
+  
 
 
 
