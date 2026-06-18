@@ -7,7 +7,7 @@ import process_data
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import ADPIE
+import ADPIE.ADPIE as ADPIE
 
 def main():
     # Load and process data
