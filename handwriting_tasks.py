@@ -112,9 +112,6 @@ def percent_overlap(participant):
 
     return (intersection / union) 
 
-
-
-
 def extract_features_for_radius(gt, nd_data, labels, radius):
     rows = []
 

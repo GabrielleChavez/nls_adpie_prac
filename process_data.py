@@ -296,6 +296,33 @@ def get_completed_paths(data):
     return completed_paths
 
 def get_completed_paths_(task = "mole", verbose=False):
+    """
+    This function only extracts the paths that were complete. I.E the individual touched all of the vertices in the pattern
+    Parameters
+    ----------
+    task : str
+        The task to extract completed paths for (e.g., "mole", "spiral
+    verbose : bool
+        Whether to print detailed information during processing 
+    Returns
+    -------
+    completed_data : dict
+        Dictionary with keys as group names and values as lists of completed path samples
+        It is in the format:
+        completed_data = {"AD": [sample1, sample2, ...], "PD": [...], "CTL": [...], ...}
+        where each sample is a dictionary containing the following keys:
+        - "img": The rendered image of the handwriting sample
+        - "X": The x-coordinates of the handwriting sample
+        - "Y": The y-coordinates of the handwriting sample
+        - "P": The normalized pressure values of the handwriting sample
+        - "T": The normalized time values of the handwriting sample
+        - "task": The task name (e.g., "mole", "spiral")
+        - "moca": A dictionary containing MoCA scores for the participant
+        - "gazeX": The x-coordinates of the gaze data (if available)
+        - "gazeY": The y-coordinates of the gaze data (if available)
+        - "subject_id": The subject ID (if available)
+
+    """
     nd_groups = ["AD", "PD", "CTL"]
 
     mci_ad = get_single_class(task, "MCI_AD", hw_only=False, subject_id=True)
