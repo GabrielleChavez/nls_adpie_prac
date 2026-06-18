@@ -13,8 +13,8 @@ from scipy.ndimage import gaussian_filter, center_of_mass
 from scipy.spatial.distance import euclidean
 from scipy.stats import entropy
 from math import ceil, sqrt
-import nls_adpie_prac.process_data as pm
-from nls_adpie_prac.ADPIE import ADPIE
+import process_data as pm
+from ADPIE import ADPIE
 from typing import List, Tuple
 
 ### GRAPHING FUNCTIONS ###
