@@ -103,6 +103,18 @@ def fix_get_completed_paths(task="mole", verbose=True):
     print("Viewing keys of completed_data:")
     for key in completed_data.keys():
         print(key)
+        print(completed_data[key].keys())
+        try:
+            for participant in completed_data[key]:
+                print(participant.keys())
+                break
+        except Exception as e:
+            print("Error: ", e)
+            for participant in completed_data[key]:
+                print(type(participant))
+                print(participant)
+                break 
+    print("END")
 
 
 if __name__ == "__main__":
