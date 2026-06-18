@@ -100,8 +100,7 @@ def fix_get_completed_paths(task="mole", verbose=True):
         for name, paths in completed_data.items():
             print(f"{name}: {len(paths)} completed paths")
 
-    print(completed_data)
-    
+   
     print("Viewing keys of completed_data:")
     for key in completed_data.keys():
         print(key)
