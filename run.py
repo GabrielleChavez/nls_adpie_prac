@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from ADPIE import ADPIE
+from stat_analysis import kruskal_test, pairwise_mannwhitney
 
 def main():
     # Load and process data
@@ -339,6 +340,28 @@ if __name__ == "__main__":
     completed_data = process_data.get_completed_paths(verbose=True)
     df = run_analysis(completed_data)
 
-    print("Unique tasks: ", df["task"].unique())
+    features = [
+        "sequence_error",
+        "normalised_seq_err",
+        "mean_lag_s",
+        "noise_ratio",
+        "reversed_ratio",
+        "n_observed",
+        "mean_lag_s",
+        "std_lag_s",
+    ]
 
+    for feature in features:
+
+        result = kruskal_test(df, feature)
+
+        print(
+            f"{feature:<25}"
+            f"H={result['H']:.3f} "
+            f"p={result['p']:.4f}"
+        )
+
+        if result["significant"]:
+            print(pairwise_mannwhitney(df, feature))
+            print()
     
