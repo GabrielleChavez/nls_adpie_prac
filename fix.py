@@ -99,6 +99,8 @@ def fix_get_completed_paths(task="mole", verbose=True):
         print("\nSummary of Completed Paths:")
         for name, paths in completed_data.items():
             print(f"{name}: {len(paths)} completed paths")
+
+    print(completed_data)
     
     print("Viewing keys of completed_data:")
     for key in completed_data.keys():
@@ -110,10 +112,12 @@ def fix_get_completed_paths(task="mole", verbose=True):
                 break
         except Exception as e:
             print("Error: ", e)
-            for participant in completed_data[key]:
-                print(type(participant))
-                print(participant)
-                break 
+            participant = completed_data[key]
+            
+            print(type(participant))
+            print(participant)
+            
+
     print("END")
 
 
