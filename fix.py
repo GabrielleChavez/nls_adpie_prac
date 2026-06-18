@@ -102,6 +102,7 @@ def fix_get_completed_paths(task="mole", verbose=True):
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    fix_get_completed_paths()
 
 
