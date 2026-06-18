@@ -56,7 +56,7 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
 
         print(f"\n[{class_name}] {len(samples)} samples")
 
-        for data in samples:
+        for data in samples.values():
 
             task_name = data.get("task")
 
@@ -339,19 +339,5 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
 
 if __name__ == "__main__":
     completed_data = process_data.get_completed_paths(verbose=True)
-    print(completed_data.keys())
-    for key in completed_data.keys():
-        print(key)
-        print(completed_data[key].keys())
-    
-        try:
-            for participant in completed_data[key]:
-                print(participant.keys())
-                break
-        except Exception as e:
-            print("Error: ", e)
-            participant = completed_data[key]
-            
-            print(type(participant))
-    #df = run_analysis(completed_data)
+    df = run_analysis(completed_data)
     
