@@ -20,6 +20,7 @@ from scipy.ndimage import gaussian_filter, label, center_of_mass
 from scipy.spatial.distance import euclidean
 from scipy.stats import entropy
 from math import ceil, sqrt
+from handwiritng_tasks import count_touches
 
 PATH = "..\handwriting"
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), PATH)))
@@ -281,4 +282,43 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                     class_1_data.append(sample)
             
     return class_1_data
+
+def get_completed_paths(data):
+    # data is a dictionary 
+    completed_paths = {}
+
+    for participant in data:
+        _, vertex_accuracy = count_touches(participant, returnAll=False )
+
+        if math.isclose(vertex_accuracy, 1.0):
+            completed_paths[participant['subject_id']] = participant
+
+    return completed_paths
+
+def get_completed_paths(task = "mole", verbose=False):
+    nd_groups = ["AD", "PD", "CTL"]
+
+    mci_ad = get_single_class(task, "MCI_AD", hw_only=True, subject_id=True)
+    mci = get_single_class(task, "MCI", hw_only=True, subject_id=True)
+    ad = get_single_class(task, "AD", hw_only=True, subject_id=True)
+    pdn = get_single_class(task, "PD", hw_only=True, subject_id=True)
+    ctl = get_single_class(task, "CTL", hw_only=True, subject_id=True)
+
+    nd_data = [mci_ad, mci, ad, pdn, ctl]
+    nd_data_name = ["MCI_AD", "MCI", "AD", "PD", "CTL"]
+
+    completed_data = {}
+
+    for (group, name) in zip(nd_data, nd_data_name):
+        if verbose:
+            print(f"Processing group: {name}")
+            print(f"Total participants in {name}: {len(group)}")
+        completed_data[name] = get_completed_paths(group, verbose=False)
+
+    if verbose:
+        print("\nSummary of Completed Paths:")
+        for name, paths in completed_data.items():
+            print(f"{name}: {len(paths)} completed paths")
+
+    return completed_data
 

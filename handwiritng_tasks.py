@@ -3,7 +3,6 @@ import numpy as np
 from tslearn.metrics import dtw_path, dtw
 from boxplots_significance import mannwhitneyu_test
 from sklearn.cluster import DBSCAN
-from process_data import getDF, get_single_class
 from ADPIE import ADPIE
 
 def count_touches(person_points, returnAll=True):
@@ -112,21 +111,7 @@ def percent_overlap(participant):
 
     return (intersection / union) 
 
-def get_completed_paths(data, verbose=False):
-    # data is a dictionary 
-    completed_paths = {}
 
-    for participant in data:
-        _, vertex_accuracy = count_touches(participant, returnAll=False )
-
-        if vertex_accuracy == 1.0:
-            completed_paths[participant['subject_id']] = participant
-
-    if verbose:
-        print(f"Total participants: {len(data)}")
-        print(f"Completed paths: {len(completed_paths)}")
-
-    return completed_paths
 
 
 def extract_features_for_radius(gt, nd_data, labels, radius):
@@ -241,28 +226,43 @@ def run_all_features(task= "mole", file_name="pursuit_path.csv", feature_name=No
                 feature_name = []
 
 
+def completed_tasks_features(data, verbose=False):
+    # the data is the full complete list of participants for a task, not separated by group
+    results = {}
+    for name, paths in data.items():
+        if verbose: 
+            print(name, paths)
+        for participant in paths:
+            num_touched, touched_any_list, vertex_acc, vertices_missed = count_touches(paths, participant)
+            if verbose: 
+                print(f"Participant {participant['subject_id']} touched {num_touched} vertices with accuracy {vertex_acc:.2f}. Missed vertices: {vertices_missed}")
+            results[participant['subject_id']] = {
+                'num_touched': num_touched, 
+                'vertex_accuracy': vertex_acc,
+                'vertices_missed': vertices_missed
+            }
+            break
+
+    return results
+
+
+
+
+
+
+
 if __name__ == "__main__":
     
-    task = "mole"
-    nd_groups = ["AD", "PD", "CTL"]
+    # Example usage
+    # participant = {
+    #     'task': 'Pursuit_path_recollection1',
+    #     'X': np.array([...]),  # Participant's X coordinates
+    #     'Y': np.array([...])   # Participant's Y coordinates
+    # }
+    
+    # dist, norm_dist = dynamic_time_warp(participant)
+    # print("DTW Distance:", dist)
+    # print("Normalized DTW Distance:", norm_dist)
 
-    mci_ad = get_single_class(task, "MCI_AD", hw_only=True, subject_id=True)
-    mci = get_single_class(task, "MCI", hw_only=True, subject_id=True)
-    ad = get_single_class(task, "AD", hw_only=True, subject_id=True)
-    pdn = get_single_class(task, "PD", hw_only=True, subject_id=True)
-    ctl = get_single_class(task, "CTL", hw_only=True, subject_id=True)
 
-    nd_data = [mci_ad, mci, ad, pdn, ctl]
-    nd_data_name = ["MCI_AD", "MCI", "AD", "PD", "CTL"]
 
-    completed_data = {}
-
-    for (group, name) in zip(nd_data, nd_data_name):
-        print(f"Processing group: {name}")
-        print(f"Total participants in {name}: {len(group)}")
-        completed_data[name] = get_completed_paths(group, verbose=False)
-
-    print("\nSummary of Completed Paths:")
-    for name, paths in completed_data.items():
-        print(f"{name}: {len(paths)} completed paths")
-        
