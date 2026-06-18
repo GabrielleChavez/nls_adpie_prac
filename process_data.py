@@ -283,7 +283,7 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
             
     return class_1_data
 
-def get_completed_paths(data):
+def _get_completed_paths(data):
     # data is a dictionary 
     completed_paths = {}
 
@@ -295,7 +295,7 @@ def get_completed_paths(data):
 
     return completed_paths
 
-def get_completed_paths_(task = "mole", verbose=False):
+def get_completed_paths(task = "mole", verbose=False):
     """
     This function only extracts the paths that were complete. I.E the individual touched all of the vertices in the pattern
     Parameters
@@ -340,7 +340,7 @@ def get_completed_paths_(task = "mole", verbose=False):
         if verbose:
             print(f"Processing group: {name}")
             print(f"Total participants in {name}: {len(group)}")
-        completed_data[name] = get_completed_paths(group)
+        completed_data[name] = _get_completed_paths(group)
 
     if verbose:
         print("\nSummary of Completed Paths:")
