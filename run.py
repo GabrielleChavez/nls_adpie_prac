@@ -85,7 +85,7 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
             # Centroid extraction
             # -------------------------------------------------
             try:
-                centroids, labels, k = hw.extract_centroids_spatiotemporal(data)
+                centroids, labels, k = et.extract_centroids_spatiotemporal(data)
 
                 noise_ratio = (
                     float(np.sum(labels == -1) / len(labels))
