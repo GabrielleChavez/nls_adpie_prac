@@ -7,7 +7,7 @@ import pandas as pd
 
 def main():
     # Load and process data
-
+    print("Loading and processing data...")
     completed_data = process_data.get_completed_paths(verbose=True)
 
 
@@ -16,4 +16,7 @@ def main():
     for key in completed_data.keys():
         print(key)
         print(completed_data[key].keys())   
-        
+
+if __name__ == "__main__":
+    main()
+    
