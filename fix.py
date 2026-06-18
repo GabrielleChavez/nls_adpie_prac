@@ -114,7 +114,7 @@ def fix_get_completed_paths(task="mole", verbose=True):
             participant = completed_data[key]
             
             print(type(participant))
-            print(participant)
+            print(participant.keys())
             
 
     print("END")
