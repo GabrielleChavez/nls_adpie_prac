@@ -294,8 +294,6 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
     # Write CSV
     # ---------------------------------------------------------
 
-    out_path = "sequence_lag_features.csv"
-
     fieldnames = [
         "filename",
         "ID",
@@ -340,4 +338,7 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
 if __name__ == "__main__":
     completed_data = process_data.get_completed_paths(verbose=True)
     df = run_analysis(completed_data)
+
+    print("Unique tasks: ", df["task"].unique())
+
     
