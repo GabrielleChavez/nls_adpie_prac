@@ -4,7 +4,7 @@ from tslearn.metrics import dtw_path, dtw
 from boxplots_significance import mannwhitneyu_test
 from sklearn.cluster import DBSCAN
 from ADPIE import ADPIE
-import 
+
 
 def count_touches(person_points, returnAll=True):
     task = person_points["task"]
