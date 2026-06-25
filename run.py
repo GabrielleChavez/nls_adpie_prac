@@ -408,13 +408,13 @@ if __name__ == "__main__":
 
     moca_domains = [
         "moca",
-        "moca_visuospatial_executive",
-        "moca_naming",
-        "moca_attention",
-        "moca_language",
-        "moca_abstraction",
-        "moca_delayed_recall",
-        "moca_orientation",
+        # "moca_visuospatial_executive",
+        # "moca_naming",
+        # "moca_attention",
+        # "moca_language",
+        # "moca_abstraction",
+        # "moca_delayed_recall",
+        # "moca_orientation",
     ]
 
 
