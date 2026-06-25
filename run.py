@@ -82,13 +82,13 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv", include_MO
                 "session": subject_id[-1] if len(subject_id) > 0 else None,
                 "expected_clusters": expected_clusters,
                 "moca": data_moca.get("moca", np.nan),
-                # "moca_visuospatial_executive": data_moca.get("moca_visuospatial_executive", np.nan),
-                # "moca_naming": data_moca.get("moca_naming", np.nan),
-                # "moca_attention": data_moca.get("moca_attention", np.nan),
-                # "moca_language": data_moca.get("moca_language", np.nan),
-                # "moca_abstraction": data_moca.get("moca_abstraction", np.nan),
-                # "moca_delayed_recall": data_moca.get("moca_delayed_recall", np.nan),
-                # "moca_orientation": data_moca.get("moca_orientation", np.nan),
+                "moca_visuospatial_executive": data_moca.get("moca_visuospatial_executive", np.nan),
+                "moca_naming": data_moca.get("moca_naming", np.nan),
+                "moca_attention": data_moca.get("moca_attention", np.nan),
+                "moca_language": data_moca.get("moca_language", np.nan),
+                "moca_abstraction": data_moca.get("moca_abstraction", np.nan),
+                "moca_delayed_recall": data_moca.get("moca_delayed_recall", np.nan),
+                "moca_orientation": data_moca.get("moca_orientation", np.nan),
 
             }
 
