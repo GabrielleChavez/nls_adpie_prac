@@ -7,7 +7,6 @@ from pathlib import Path
 from PIL import Image
 # sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..\..")))
 ## Now you | can import
-import boxplots_significance as box
 from sklearn.cluster import KMeans, DBSCAN
 from scipy.ndimage import gaussian_filter, center_of_mass
 from scipy.spatial.distance import euclidean

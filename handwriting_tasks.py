@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from tslearn.metrics import dtw_path, dtw
-from boxplots_significance import mannwhitneyu_test
+# from boxplots_significance import mannwhitneyu_test
 from sklearn.cluster import DBSCAN
 from ADPIE import ADPIE
 
@@ -131,33 +131,33 @@ def extract_features_for_radius(gt, nd_data, labels, radius):
 def filter_groups(df, g1='AD', g2='CTL'):
     return df[df['label'].isin([g1, g2])]
 
-def grid_search(gt, nd_data, labels, radii, group_one_name="PD", group_two_name='CTL'):
-    results = []
-    for r in radii:
-        df = extract_features_for_radius(gt, nd_data, labels, r)
+# def grid_search(gt, nd_data, labels, radii, group_one_name="PD", group_two_name='CTL'):
+#     results = []
+#     for r in radii:
+#         df = extract_features_for_radius(gt, nd_data, labels, r)
 
-        res = mannwhitneyu_test(
-            df,
-            cols=['vertex_accuracy'],
-            group_one_name=group_one_name,
-            group_two_name=group_two_name
-        )
+#         res = mannwhitneyu_test(
+#             df,
+#             cols=['vertex_accuracy'],
+#             group_one_name=group_one_name,
+#             group_two_name=group_two_name
+#         )
 
-        raw_p, corr_p, sig = res['vertex_accuracy']
+#         raw_p, corr_p, sig = res['vertex_accuracy']
 
-        results.append({
-            'radius': r,
-            'raw_p': raw_p,
-            'corrected_p': corr_p,
-            'significant': sig
-        })
+#         results.append({
+#             'radius': r,
+#             'raw_p': raw_p,
+#             'corrected_p': corr_p,
+#             'significant': sig
+#         })
 
-    results_df = pd.DataFrame(results)
+#     results_df = pd.DataFrame(results)
 
-    best = results_df.loc[results_df['corrected_p'].idxmin()]
-    print(best)
+#     best = results_df.loc[results_df['corrected_p'].idxmin()]
+#     print(best)
 
-    return results_df
+#     return results_df
 
 def append_data(col_name, data, file_name='../mole.csv'):
     """Appends new features to spreadsheet

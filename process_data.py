@@ -13,8 +13,7 @@ import sys, os, subprocess, re, io, cv2, math
 from PIL import Image
 from tslearn.utils import to_time_series
 from tslearn.metrics import dtw_path, dtw
-from tslearn.preprocessing import TimeSeriesResampler
-from boxplots_significance import mannwhitneyu_test
+from tslearn.preprocessing import TimeSeriesResamplerest
 from sklearn.cluster import DBSCAN
 from scipy.ndimage import gaussian_filter, label, center_of_mass
 from scipy.spatial.distance import euclidean
