@@ -23,7 +23,9 @@ def main():
     # for label in labels:
     #     print(label, ": ", count(label))
 
-    calculate_moca_score_per_group(df)
+    # calculate_moca_score_per_group(df)
+
+    export_last_moca_scores(df, out_path="moca_scores.csv", subject_col="subject")
     return
 
 def avg_moca_score(row, moca_cols = None):
@@ -120,8 +122,71 @@ def fix_get_completed_paths(task="mole", verbose=True):
     print("END")
 
 
+def export_last_moca_scores(
+    df,
+    out_path="moca_scores.csv",
+    subject_col="subject"
+):
+    """
+    Create a CSV containing subject and the most recent
+    MoCA scores from each MoCA category.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+    out_path : str
+        Output CSV path.
+    subject_col : str
+        Subject identifier column.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame written to disk.
+    """
+
+    moca_cols = [
+        "moca",
+        "moca_visuospatial_executive",
+        "moca_naming",
+        "moca_attention",
+        "moca_language",
+        "moca_abstraction",
+        "moca_delayed_recall",
+        "moca_orientation",
+    ]
+
+    result = pd.DataFrame()
+
+    result[subject_col] = df[subject_col]
+
+    for col in moca_cols:
+
+        def get_last_value(x):
+            if pd.isna(x):
+                return None
+
+            parts = str(x).split(";")
+
+            if len(parts) == 0:
+                return None
+
+            last = parts[-1].strip()
+
+            try:
+                return float(last)
+            except ValueError:
+                return last
+
+        result[col] = df[col].apply(get_last_value)
+
+    result.to_csv(out_path, index=False)
+
+    return result
+
 if __name__ == "__main__":
-    #main()
-    fix_get_completed_paths()
+    main()
+    #fix_get_completed_paths()
+
 
 
