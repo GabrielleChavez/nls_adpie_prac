@@ -249,9 +249,9 @@ def get_single_class(_labels, class_, get_img = False, set_width=3, hw_only=Fals
                     moca_dict = {}
                     for moca in moca_cols:
                         try:
-                            moca_raw = str(subject_row[moca])
+                            moca_raw = str(subject_row[moca].values[0])
                             moca_sessions = moca_raw.split(";")
-                            moca_dict[moca] = float(moca_sessions[session]) if session < len(moca_sessions) else moca_sessions[len(moca_sessions) - 1] # ensure we get moca score for the same session
+                            moca_dict[moca] = float(moca_sessions[session]) if session < len(moca_sessions) else moca_sessions[len(moca_sessions) - 1] # ensure we get moca score for the same
                         except Exception as e:
                             print(f"Error processing MoCA column {moca} for subject {folder}: {e}")
                             moca_dict[moca] = np.nan  # or some default value
