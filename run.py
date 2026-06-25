@@ -351,17 +351,32 @@ def calculate_n_output_p_val(df, features):
     """
     
 
-    for feature in features:
+    moca_domains = [
+        "moca",
+        "moca_visuospatial_executive",
+        "moca_naming",
+        "moca_attention",
+        "moca_language",
+        "moca_abstraction",
+        "moca_delayed_recall",
+        "moca_orientation",
+    ]
 
-        result = kruskal_test(df, feature)
 
-        print(
-            f"{feature:<25}"
-            f"H={result['H']:.3f} "
-            f"p={result['p']:.4f}"
-        )
+    user_input = int(input(
+        "Enter 1 to calculate Kruskal-Wallis and Mann-Whitney tests, "
+        "or 2 to calculate Spearman correlation with MoCA scores"
+        "Enter 0 to exit: "
+    ))
 
-        print(pairwise_mannwhitney(df, feature))
+    while user_input != 0:
+        if user_input == 1:
+            calculate_n_output_p_val(df, features)
+        elif user_input == 2:
+            calculate_spearman_correlation(df, features, moca_domains)
+        else:
+            print("Invalid input. Please enter 1, 2, or 0.")
+
         print()
 
 def calculate_spearman_correlation(df, features, moca_domains):
