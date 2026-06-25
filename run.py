@@ -393,7 +393,7 @@ def calculate_spearman_correlation(df, features, moca_domains):
 
 if __name__ == "__main__":
     completed_data = process_data.get_completed_paths(verbose=True)
-    df = run_analysis(completed_data)
+    df = run_analysis(completed_data, out_path="pursuit_path_results.csv")
 
     features = [
         "sequence_error",
