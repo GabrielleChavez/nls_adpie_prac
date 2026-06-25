@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from ADPIE import ADPIE
-from stat_analysis import kruskal_test, pairwise_mannwhitney
+from stat_analysis import kruskal_test, pairwise_mannwhitney, spearman_correlation
 
 def main():
     # Load and process data
@@ -16,7 +16,7 @@ def main():
     completed_data = process_data.get_completed_paths(verbose=True)
 
 
-def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
+def run_analysis(completed_data, out_path="pursuit_path_results.csv", include_MOCA=False):
     """
     Compute sequence error and gaze-pen lag features for all samples
     contained in completed_data.
@@ -72,6 +72,7 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
                 or data.get("id")
                 or "unknown"
             )
+            data_moca = data.get("moca", {})
 
             base = {
                 "filename": f"{subject_id}_{task_name}",
@@ -80,6 +81,15 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
                 "task": task_name,
                 "session": subject_id[-1] if len(subject_id) > 0 else None,
                 "expected_clusters": expected_clusters,
+                "moca": data_moca.get("moca", np.nan),
+                "moca_visuospatial_executive": data_moca.get("moca_visuospatial_executive", np.nan),
+                "moca_naming": data_moca.get("moca_naming", np.nan),
+                "moca_attention": data_moca.get("moca_attention", np.nan),
+                "moca_language": data_moca.get("moca_language", np.nan),
+                "moca_abstraction": data_moca.get("moca_abstraction", np.nan),
+                "moca_delayed_recall": data_moca.get("moca_delayed_recall", np.nan),
+                "moca_orientation": data_moca.get("moca_orientation", np.nan),
+
             }
 
             # -------------------------------------------------
@@ -206,79 +216,80 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
             # -------------------------------------------------
             # Save row
             # -------------------------------------------------
+
             rows.append({
-                **base,
-                "n_clusters": k,
-                "noise_ratio": round(noise_ratio, 4),
+            **base,
+            "n_clusters": k,
+            "noise_ratio": round(noise_ratio, 4),
 
-                "expected_order":
-                    str(seq.get("expected_order", [])),
+            "expected_order":
+                str(seq.get("expected_order", [])),
 
-                "observed_order":
-                    str(seq.get("observed_order", [])),
+            "observed_order":
+                str(seq.get("observed_order", [])),
 
-                "sequence_error":
-                    seq.get("sequence_error", np.nan),
+            "sequence_error":
+                seq.get("sequence_error", np.nan),
 
-                "normalised_seq_err":
-                    round(
-                        seq.get("normalised_error", np.nan),
-                        4,
-                    ),
+            "normalised_seq_err":
+                round(
+                    seq.get("normalised_error", np.nan),
+                    4,
+                ),
 
-                "n_expected":
-                    seq.get("n_expected", np.nan),
+            "n_expected":
+                seq.get("n_expected", np.nan),
 
-                "n_observed":
-                    seq.get("n_observed", np.nan),
+            "n_observed":
+                seq.get("n_observed", np.nan),
 
-                "mean_lag_s":
-                    round(
-                        lag_summary.get(
-                            "mean_lag_s",
-                            np.nan,
-                        ),
-                        4,
-                    ),
-
-                "std_lag_s":
-                    round(
-                        lag_summary.get(
-                            "std_lag_s",
-                            np.nan,
-                        ),
-                        4,
-                    ),
-
-                "n_valid_lag":
+            "mean_lag_s":
+                round(
                     lag_summary.get(
-                        "n_valid",
+                        "mean_lag_s",
                         np.nan,
                     ),
+                    4,
+                ),
 
-                "n_eye_leads":
+            "std_lag_s":
+                round(
                     lag_summary.get(
-                        "n_eye_leads",
+                        "std_lag_s",
                         np.nan,
                     ),
+                    4,
+                ),
 
-                "n_pen_leads":
+            "n_valid_lag":
+                lag_summary.get(
+                    "n_valid",
+                    np.nan,
+                ),
+
+            "n_eye_leads":
+                lag_summary.get(
+                    "n_eye_leads",
+                    np.nan,
+                ),
+
+            "n_pen_leads":
+                lag_summary.get(
+                    "n_pen_leads",
+                    np.nan,
+                ),
+
+            "reversed_ratio":
+                round(
                     lag_summary.get(
-                        "n_pen_leads",
+                        "reversed_ratio",
                         np.nan,
                     ),
+                    4,
+                ),
 
-                "reversed_ratio":
-                    round(
-                        lag_summary.get(
-                            "reversed_ratio",
-                            np.nan,
-                        ),
-                        4,
-                    ),
-
-                "error": None,
-            })
+            "error": None,
+        })
 
     # ---------------------------------------------------------
     # Write CSV
@@ -290,9 +301,17 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
         "label",
         "task",
         "session",
+        "expected_clusters",
+        "moca",
+        "moca_visuospatial_executive",
+        "moca_naming",
+        "moca_attention",
+        "moca_language",
+        "moca_abstraction",
+        "moca_delayed_recall",
+        "moca_orientation",
         "n_clusters",
         "noise_ratio",
-        "expected_clusters",
         "expected_order",
         "observed_order",
         "sequence_error",
@@ -323,6 +342,53 @@ def run_analysis(completed_data, out_path="pursuit_path_results.csv"):
 
     df = pd.DataFrame(rows)
     return df
+
+
+def calculate_n_output_p_val(df, features):
+    """
+    Calculate the number of output rows and p-values
+    for each feature in the analysis.
+    """
+    
+
+    for feature in features:
+
+        result = kruskal_test(df, feature)
+
+        print(
+            f"{feature:<25}"
+            f"H={result['H']:.3f} "
+            f"p={result['p']:.4f}"
+        )
+
+        print(pairwise_mannwhitney(df, feature))
+        print()
+
+def calculate_spearman_correlation(df, features, moca_domains):
+    """
+    Calculate Spearman correlation
+    between each feature and MoCA score.
+    """ 
+
+
+    for feature in features:
+
+        print(f"\n{'='*60}")
+        print(feature)
+        print('='*60)
+
+        for domain in moca_domains:
+
+            results = spearman_correlation(
+                df,
+                feature=feature,
+                target_col=domain,
+                group_col="label"
+            )
+
+            if not results.empty:
+                print(f"\n{domain}")
+                print(results)
  
 
 if __name__ == "__main__":
@@ -340,16 +406,37 @@ if __name__ == "__main__":
         "std_lag_s",
     ]
 
-    for feature in features:
+    moca_domains = [
+        "moca",
+        "moca_visuospatial_executive",
+        "moca_naming",
+        "moca_attention",
+        "moca_language",
+        "moca_abstraction",
+        "moca_delayed_recall",
+        "moca_orientation",
+    ]
 
-        result = kruskal_test(df, feature)
 
-        print(
-            f"{feature:<25}"
-            f"H={result['H']:.3f} "
-            f"p={result['p']:.4f}"
-        )
+    user_input = int(input(
+        "Enter 1 to calculate Kruskal-Wallis and Mann-Whitney tests, "
+        "or 2 to calculate Spearman correlation with MoCA scores"
+        "Enter 0 to exit: "
+    ))
 
-        print(pairwise_mannwhitney(df, feature))
+    while user_input != 0:
+        if user_input == 1:
+            calculate_n_output_p_val(df, features)
+        elif user_input == 2:
+            calculate_spearman_correlation(df, features, moca_domains)
+        else:
+            print("Invalid input. Please enter 1, 2, or 0.")
+
         print()
+        user_input = int(input(
+            "Enter 1 to calculate Kruskal-Wallis and Mann-Whitney tests, "
+            "or 2 to calculate Spearman correlation with MoCA scores"
+            "Enter 0 to exit: "
+        ))
+    
     

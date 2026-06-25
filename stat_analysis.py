@@ -1,4 +1,4 @@
-from scipy.stats import kruskal, mannwhitneyu
+from scipy.stats import kruskal, mannwhitneyu, spearmanr
 import pandas as pd
 import itertools
 
@@ -55,6 +55,7 @@ def pairwise_mannwhitney(df, feature, group_col="label"):
 
     labels = sorted(df[group_col].dropna().unique())
 
+
     results = []
 
     for g1, g2 in itertools.combinations(labels, 2):
@@ -81,5 +82,78 @@ def pairwise_mannwhitney(df, feature, group_col="label"):
             "p": p,
             "significant": p < 0.05,
         })
+
+    return pd.DataFrame(results)
+
+
+
+def spearman_correlation(
+    df,
+    feature,
+    target_col,
+    group_col=None
+):
+    """
+    Perform Spearman correlation between a feature and target column.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+    feature : str
+    target_col : str
+    group_col : str or None
+
+    Returns
+    -------
+    pd.DataFrame
+    """
+
+    results = []
+
+    if group_col is None:
+
+        temp = df[[feature, target_col]].dropna()
+
+        if len(temp) < 3:
+            return pd.DataFrame()
+
+        rho, p = spearmanr(
+            temp[feature],
+            temp[target_col]
+        )
+
+        results.append({
+            "feature": feature,
+            "target": target_col,
+            "group": "ALL",
+            "n": len(temp),
+            "rho": rho,
+            "p": p,
+            "significant": p < 0.05
+        })
+
+    else:
+
+        for group_name, group_df in df.groupby(group_col):
+
+            temp = group_df[[feature, target_col]].dropna()
+
+            if len(temp) < 3:
+                continue
+
+            rho, p = spearmanr(
+                temp[feature],
+                temp[target_col]
+            )
+
+            results.append({
+                "feature": feature,
+                "target": target_col,
+                "group": group_name,
+                "n": len(temp),
+                "rho": rho,
+                "p": p,
+                "significant": p < 0.05
+            })
 
     return pd.DataFrame(results)
